@@ -30,4 +30,14 @@
     <string name="about_desc">LaundryKu membantu pengguna memperkirakan harga laundry dengan cepat berdasarkan berat, jenis layanan, dan opsi antar jemput.</string>
     <string name="about_creator">Dibuat oleh: Zivan Sabili - 3153</string>
     <string name="cd_laundry_image">Gambar banner laundry</string>
+
+    <string name="empty_order_title">Belum ada pesanan laundry</string>
+    <string name="empty_order_desc">Tekan tombol Tambah untuk membuat pesanan baru.</string>
+    <string name="add_order">Tambah</string>
+    <string name="order_weight">Berat: %1$s kg</string>
+    <string name="order_service">Layanan: %1$s</string>
+    <string name="order_pickup">Antar Jemput: %1$s</string>
+    <string name="order_total_price">Total: Rp %1$d</string>
+    <string name="order_estimate">Estimasi: %1$d hari</string>
+    <string name="order_date">Tanggal: %1$s</string>
 </resources>

@@ -30,4 +30,14 @@
     <string name="about_desc">LaundryKu helps users estimate laundry prices quickly based on weight, service type, and pickup option.</string>
     <string name="about_creator">Created by: Zivan Sabili - 3153</string>
     <string name="cd_laundry_image">Laundry banner image</string>
+
+    <string name="empty_order_title">No laundry orders yet</string>
+    <string name="empty_order_desc">Tap the Add button to create a new order.</string>
+    <string name="add_order">Add</string>
+    <string name="order_weight">Weight: %1$s kg</string>
+    <string name="order_service">Service: %1$s</string>
+    <string name="order_pickup">Pickup: %1$s</string>
+    <string name="order_total_price">Total: Rp %1$d</string>
+    <string name="order_estimate">Estimate: %1$d day(s)</string>
+    <string name="order_date">Date: %1$s</string>
 </resources>
