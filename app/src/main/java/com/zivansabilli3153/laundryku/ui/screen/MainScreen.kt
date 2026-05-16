@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items as gridItems
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -55,7 +58,9 @@ fun MainScreen(
     val viewModel: MainViewModel = viewModel(factory = factory)
 
     val dataPesanan by viewModel.dataPesanan.collectAsState()
+
     var expandedMenu by rememberSaveable { mutableStateOf(false) }
+    var showList by rememberSaveable { mutableStateOf(true) }
 
     Scaffold(
         topBar = {
@@ -64,6 +69,22 @@ fun MainScreen(
                     Text(text = stringResource(R.string.app_name))
                 },
                 actions = {
+                    TextButton(
+                        onClick = {
+                            showList = !showList
+                        }
+                    ) {
+                        Text(
+                            text = stringResource(
+                                if (showList) {
+                                    R.string.view_grid
+                                } else {
+                                    R.string.view_list
+                                }
+                            )
+                        )
+                    }
+
                     Box {
                         TextButton(onClick = { expandedMenu = true }) {
                             Text(text = stringResource(R.string.menu_label))
@@ -106,29 +127,22 @@ fun MainScreen(
                     .padding(16.dp)
             )
         } else {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentPadding = PaddingValues(
-                    start = 16.dp,
-                    top = 16.dp,
-                    end = 16.dp,
-                    bottom = 96.dp
-                ),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(
-                    items = dataPesanan,
-                    key = { it.id }
-                ) { pesanan ->
-                    PesananListItem(
-                        pesanan = pesanan,
-                        onClick = {
-                            onItemClick(pesanan.id)
-                        }
-                    )
-                }
+            if (showList) {
+                PesananList(
+                    dataPesanan = dataPesanan,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    onItemClick = onItemClick
+                )
+            } else {
+                PesananGrid(
+                    dataPesanan = dataPesanan,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    onItemClick = onItemClick
+                )
             }
         }
     }
@@ -166,6 +180,68 @@ private fun EmptyOrderState(
             text = stringResource(R.string.empty_order_desc),
             style = MaterialTheme.typography.bodyMedium
         )
+    }
+}
+
+@Composable
+private fun PesananList(
+    dataPesanan: List<Pesanan>,
+    modifier: Modifier = Modifier,
+    onItemClick: (Long) -> Unit
+) {
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(
+            start = 16.dp,
+            top = 16.dp,
+            end = 16.dp,
+            bottom = 96.dp
+        ),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        items(
+            items = dataPesanan,
+            key = { it.id }
+        ) { pesanan ->
+            PesananListItem(
+                pesanan = pesanan,
+                onClick = {
+                    onItemClick(pesanan.id)
+                }
+            )
+        }
+    }
+}
+
+@Composable
+private fun PesananGrid(
+    dataPesanan: List<Pesanan>,
+    modifier: Modifier = Modifier,
+    onItemClick: (Long) -> Unit
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = modifier,
+        contentPadding = PaddingValues(
+            start = 16.dp,
+            top = 16.dp,
+            end = 16.dp,
+            bottom = 96.dp
+        ),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        gridItems(
+            items = dataPesanan,
+            key = { it.id }
+        ) { pesanan ->
+            PesananGridItem(
+                pesanan = pesanan,
+                onClick = {
+                    onItemClick(pesanan.id)
+                }
+            )
+        }
     }
 }
 
@@ -249,6 +325,76 @@ private fun PesananListItem(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
+
+            if (pesanan.catatan.isNotBlank()) {
+                Spacer(modifier = Modifier.height(6.dp))
+
+                Text(
+                    text = pesanan.catatan,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun PesananGridItem(
+    pesanan: Pesanan,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+    ) {
+        Column(
+            modifier = Modifier.padding(12.dp)
+        ) {
+            Text(
+                text = pesanan.namaPelanggan,
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Bold,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            Text(
+                text = pesanan.jenisLayanan,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Text(
+                text = stringResource(
+                    R.string.order_weight,
+                    pesanan.beratKg.toString()
+                ),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Text(
+                text = stringResource(
+                    R.string.order_total_price,
+                    pesanan.totalHarga
+                ),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            if (pesanan.catatan.isNotBlank()) {
+                Spacer(modifier = Modifier.height(6.dp))
+
+                Text(
+                    text = pesanan.catatan,
+                    maxLines = 4,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
 }

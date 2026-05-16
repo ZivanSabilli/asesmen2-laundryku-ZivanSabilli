@@ -50,4 +50,6 @@
     <string name="delete_message">Apakah kamu yakin ingin menghapus pesanan ini?</string>
     <string name="delete_confirm">Hapus</string>
     <string name="cancel">Batal</string>
+    <string name="view_list">List</string>
+    <string name="view_grid">Grid</string>
 </resources>
