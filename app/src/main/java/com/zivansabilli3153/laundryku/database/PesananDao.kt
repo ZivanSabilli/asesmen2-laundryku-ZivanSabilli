@@ -20,6 +20,9 @@ interface PesananDao {
     @Delete
     suspend fun delete(pesanan: Pesanan)
 
+    @Query("DELETE FROM pesanan WHERE id = :id")
+    suspend fun deleteById(id: Long)
+
     @Query("SELECT * FROM pesanan ORDER BY waktuDibuat DESC")
     fun getAllPesanan(): Flow<List<Pesanan>>
 

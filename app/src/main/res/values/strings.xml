@@ -46,4 +46,8 @@
     <string name="order_form_note">Order note</string>
     <string name="order_form_note_hint">Example: separate white clothes</string>
     <string name="edit_order_title">Edit Laundry Order</string>
+    <string name="delete_order">Delete Order</string>
+    <string name="delete_message">Are you sure you want to delete this order?</string>
+    <string name="delete_confirm">Delete</string>
+    <string name="cancel">Cancel</string>
 </resources>

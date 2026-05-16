@@ -46,4 +46,8 @@
     <string name="order_form_note">Catatan pesanan</string>
     <string name="order_form_note_hint">Contoh: pisahkan baju putih</string>
     <string name="edit_order_title">Ubah Pesanan Laundry</string>
+    <string name="delete_order">Hapus Pesanan</string>
+    <string name="delete_message">Apakah kamu yakin ingin menghapus pesanan ini?</string>
+    <string name="delete_confirm">Hapus</string>
+    <string name="cancel">Batal</string>
 </resources>

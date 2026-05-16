@@ -2,6 +2,7 @@ package com.zivansabilli3153.laundryku.ui.screen
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -54,6 +57,9 @@ fun DetailScreen(
     var serviceType by rememberSaveable { mutableStateOf("regular") }
     var usePickup by rememberSaveable { mutableStateOf(false) }
     var noteText by rememberSaveable { mutableStateOf("") }
+
+    var expandedMenu by rememberSaveable { mutableStateOf(false) }
+    var showDeleteDialog by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(idPesanan) {
         if (idPesanan != null) {
@@ -149,6 +155,29 @@ fun DetailScreen(
                     ) {
                         Text(text = stringResource(R.string.save_order))
                     }
+
+                    if (idPesanan != null) {
+                        Box {
+                            TextButton(onClick = { expandedMenu = true }) {
+                                Text(text = "⋮")
+                            }
+
+                            DropdownMenu(
+                                expanded = expandedMenu,
+                                onDismissRequest = { expandedMenu = false }
+                            ) {
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(text = stringResource(R.string.delete_order))
+                                    },
+                                    onClick = {
+                                        expandedMenu = false
+                                        showDeleteDialog = true
+                                    }
+                                )
+                            }
+                        }
+                    }
                 }
             )
         }
@@ -242,5 +271,20 @@ fun DetailScreen(
                 maxLines = 4
             )
         }
+    }
+
+    if (showDeleteDialog) {
+        DisplayAlertDialog(
+            onDismissRequest = {
+                showDeleteDialog = false
+            },
+            onConfirmation = {
+                showDeleteDialog = false
+                if (idPesanan != null) {
+                    viewModel.delete(idPesanan)
+                }
+                onSaveClick()
+            }
+        )
     }
 }
