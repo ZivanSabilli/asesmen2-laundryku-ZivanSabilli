@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">LaundryKu</string>
+    <string name="menu_label">Menu</string>
+    <string name="menu_about">About</string>
+    <string name="about_title">About App</string>
+    <string name="up_label">Back</string>
+
+    <string name="customer_name">Customer Name</string>
+    <string name="weight_kg">Laundry Weight (kg)</string>
+    <string name="choose_service">Choose Service</string>
+    <string name="service_regular">Regular</string>
+    <string name="service_express">Express</string>
+    <string name="pickup_service">Pickup Service</string>
+    <string name="calculate">Calculate</string>
+    <string name="share_result">Share Result</string>
+    <string name="result_title">Calculation Result</string>
+
+    <string name="error_name">Customer name must be filled</string>
+    <string name="error_weight_empty">Laundry weight must be filled</string>
+    <string name="error_weight_invalid">Laundry weight must be a valid number</string>
+
+    <string name="result_total_price">Total Price: Rp %1$d</string>
+    <string name="result_estimate">Estimated Finish: %1$d day(s)</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="share_message">LaundryKu Result\nCustomer: %1$s\nWeight: %2$s kg\nService: %3$s\nPickup: %4$s\nTotal Price: Rp %5$d\nEstimated Finish: %6$d day(s)</string>
+
+    <string name="about_desc">LaundryKu helps users estimate laundry prices quickly based on weight, service type, and pickup option.</string>
+    <string name="about_creator">Created by: Zivan Sabili - 3153</string>
+    <string name="cd_laundry_image">Laundry banner image</string>
+</resources>

@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">LaundryKu</string>
+    <string name="menu_label">Menu</string>
+    <string name="menu_about">Tentang</string>
+    <string name="about_title">Tentang Aplikasi</string>
+    <string name="up_label">Kembali</string>
+
+    <string name="customer_name">Nama Pelanggan</string>
+    <string name="weight_kg">Berat Laundry (kg)</string>
+    <string name="choose_service">Pilih Layanan</string>
+    <string name="service_regular">Reguler</string>
+    <string name="service_express">Ekspres</string>
+    <string name="pickup_service">Layanan Antar Jemput</string>
+    <string name="calculate">Hitung</string>
+    <string name="share_result">Bagikan Hasil</string>
+    <string name="result_title">Hasil Perhitungan</string>
+
+    <string name="error_name">Nama pelanggan harus diisi</string>
+    <string name="error_weight_empty">Berat laundry harus diisi</string>
+    <string name="error_weight_invalid">Berat laundry harus berupa angka yang valid</string>
+
+    <string name="result_total_price">Total Harga: Rp %1$d</string>
+    <string name="result_estimate">Estimasi Selesai: %1$d hari</string>
+
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
+
+    <string name="share_message">Hasil LaundryKu\nPelanggan: %1$s\nBerat: %2$s kg\nLayanan: %3$s\nAntar Jemput: %4$s\nTotal Harga: Rp %5$d\nEstimasi Selesai: %6$d hari</string>
+
+    <string name="about_desc">LaundryKu membantu pengguna memperkirakan harga laundry dengan cepat berdasarkan berat, jenis layanan, dan opsi antar jemput.</string>
+    <string name="about_creator">Dibuat oleh: Zivan Sabili - 3153</string>
+    <string name="cd_laundry_image">Gambar banner laundry</string>
+</resources>
