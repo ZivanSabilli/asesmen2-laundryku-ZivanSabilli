@@ -14,6 +14,10 @@ class DetailViewModel(private val dao: PesananDao) : ViewModel() {
 
     private val formatter = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
 
+    suspend fun getPesanan(id: Long): Pesanan? {
+        return dao.getPesananById(id)
+    }
+
     fun insert(
         namaPelanggan: String,
         beratKg: Double,
@@ -21,13 +25,58 @@ class DetailViewModel(private val dao: PesananDao) : ViewModel() {
         antarJemput: Boolean,
         catatan: String
     ) {
+        val pesanan = createPesanan(
+            id = 0L,
+            namaPelanggan = namaPelanggan,
+            beratKg = beratKg,
+            serviceType = serviceType,
+            antarJemput = antarJemput,
+            catatan = catatan
+        )
+
+        viewModelScope.launch(Dispatchers.IO) {
+            dao.insert(pesanan)
+        }
+    }
+
+    fun update(
+        id: Long,
+        namaPelanggan: String,
+        beratKg: Double,
+        serviceType: String,
+        antarJemput: Boolean,
+        catatan: String
+    ) {
+        val pesanan = createPesanan(
+            id = id,
+            namaPelanggan = namaPelanggan,
+            beratKg = beratKg,
+            serviceType = serviceType,
+            antarJemput = antarJemput,
+            catatan = catatan
+        )
+
+        viewModelScope.launch(Dispatchers.IO) {
+            dao.update(pesanan)
+        }
+    }
+
+    private fun createPesanan(
+        id: Long,
+        namaPelanggan: String,
+        beratKg: Double,
+        serviceType: String,
+        antarJemput: Boolean,
+        catatan: String
+    ): Pesanan {
         val pricePerKg = if (serviceType == "express") 10000 else 7000
         val pickupFee = if (antarJemput) 5000 else 0
         val totalHarga = (beratKg * pricePerKg + pickupFee).toInt()
         val estimasiHari = if (serviceType == "express") 1 else 3
         val jenisLayanan = if (serviceType == "express") "Express" else "Regular"
 
-        val pesanan = Pesanan(
+        return Pesanan(
+            id = id,
             namaPelanggan = namaPelanggan,
             beratKg = beratKg,
             jenisLayanan = jenisLayanan,
@@ -37,9 +86,5 @@ class DetailViewModel(private val dao: PesananDao) : ViewModel() {
             catatan = catatan,
             tanggal = formatter.format(Date())
         )
-
-        viewModelScope.launch(Dispatchers.IO) {
-            dao.insert(pesanan)
-        }
     }
 }

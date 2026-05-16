@@ -45,4 +45,5 @@
     <string name="save_order">Save</string>
     <string name="order_form_note">Order note</string>
     <string name="order_form_note_hint">Example: separate white clothes</string>
+    <string name="edit_order_title">Edit Laundry Order</string>
 </resources>

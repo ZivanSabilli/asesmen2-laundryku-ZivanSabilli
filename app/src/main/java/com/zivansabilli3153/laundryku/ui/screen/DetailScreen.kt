@@ -23,6 +23,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -40,6 +41,7 @@ import com.zivansabilli3153.laundryku.util.ViewModelFactory
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
+    idPesanan: Long? = null,
     onBackClick: () -> Unit,
     onSaveClick: () -> Unit
 ) {
@@ -53,11 +55,37 @@ fun DetailScreen(
     var usePickup by rememberSaveable { mutableStateOf(false) }
     var noteText by rememberSaveable { mutableStateOf("") }
 
+    LaunchedEffect(idPesanan) {
+        if (idPesanan != null) {
+            val pesanan = viewModel.getPesanan(idPesanan)
+
+            if (pesanan != null) {
+                customerName = pesanan.namaPelanggan
+                weightText = pesanan.beratKg.toString()
+                serviceType = if (pesanan.jenisLayanan.equals("Express", ignoreCase = true)) {
+                    "express"
+                } else {
+                    "regular"
+                }
+                usePickup = pesanan.antarJemput
+                noteText = pesanan.catatan
+            }
+        }
+    }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = stringResource(R.string.add_order_title))
+                    Text(
+                        text = stringResource(
+                            if (idPesanan == null) {
+                                R.string.add_order_title
+                            } else {
+                                R.string.edit_order_title
+                            }
+                        )
+                    )
                 },
                 navigationIcon = {
                     TextButton(onClick = onBackClick) {
@@ -95,13 +123,25 @@ fun DetailScreen(
                                 }
 
                                 else -> {
-                                    viewModel.insert(
-                                        namaPelanggan = customerName,
-                                        beratKg = weight,
-                                        serviceType = serviceType,
-                                        antarJemput = usePickup,
-                                        catatan = noteText
-                                    )
+                                    if (idPesanan == null) {
+                                        viewModel.insert(
+                                            namaPelanggan = customerName,
+                                            beratKg = weight,
+                                            serviceType = serviceType,
+                                            antarJemput = usePickup,
+                                            catatan = noteText
+                                        )
+                                    } else {
+                                        viewModel.update(
+                                            id = idPesanan,
+                                            namaPelanggan = customerName,
+                                            beratKg = weight,
+                                            serviceType = serviceType,
+                                            antarJemput = usePickup,
+                                            catatan = noteText
+                                        )
+                                    }
+
                                     onSaveClick()
                                 }
                             }
