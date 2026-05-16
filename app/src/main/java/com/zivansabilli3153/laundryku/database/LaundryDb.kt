@@ -8,7 +8,7 @@ import com.zivansabilli3153.laundryku.model.Pesanan
 
 @Database(
     entities = [Pesanan::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class LaundryDb : RoomDatabase() {
@@ -28,7 +28,9 @@ abstract class LaundryDb : RoomDatabase() {
                         context.applicationContext,
                         LaundryDb::class.java,
                         "laundryku.db"
-                    ).build()
+                    )
+                        .fallbackToDestructiveMigration()
+                        .build()
 
                     INSTANCE = instance
                 }

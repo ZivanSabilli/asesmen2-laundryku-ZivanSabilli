@@ -13,6 +13,7 @@ data class Pesanan(
     val antarJemput: Boolean,
     val totalHarga: Int,
     val estimasiHari: Int,
+    val catatan: String,
     val tanggal: String,
     val waktuDibuat: Long = System.currentTimeMillis()
 )

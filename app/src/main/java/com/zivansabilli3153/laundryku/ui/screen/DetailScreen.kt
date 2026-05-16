@@ -1,5 +1,6 @@
 package com.zivansabilli3153.laundryku.ui.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,10 +29,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.zivansabilli3153.laundryku.R
+import com.zivansabilli3153.laundryku.util.ViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,6 +43,10 @@ fun DetailScreen(
     onBackClick: () -> Unit,
     onSaveClick: () -> Unit
 ) {
+    val context = LocalContext.current
+    val factory = ViewModelFactory(context)
+    val viewModel: DetailViewModel = viewModel(factory = factory)
+
     var customerName by rememberSaveable { mutableStateOf("") }
     var weightText by rememberSaveable { mutableStateOf("") }
     var serviceType by rememberSaveable { mutableStateOf("regular") }
@@ -57,7 +65,48 @@ fun DetailScreen(
                     }
                 },
                 actions = {
-                    TextButton(onClick = onSaveClick) {
+                    TextButton(
+                        onClick = {
+                            val weight = weightText.toDoubleOrNull()
+
+                            when {
+                                customerName.isBlank() -> {
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.error_name),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                                weightText.isBlank() -> {
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.error_weight_empty),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                                weight == null || weight <= 0 -> {
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.error_weight_invalid),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                                else -> {
+                                    viewModel.insert(
+                                        namaPelanggan = customerName,
+                                        beratKg = weight,
+                                        serviceType = serviceType,
+                                        antarJemput = usePickup,
+                                        catatan = noteText
+                                    )
+                                    onSaveClick()
+                                }
+                            }
+                        }
+                    ) {
                         Text(text = stringResource(R.string.save_order))
                     }
                 }
