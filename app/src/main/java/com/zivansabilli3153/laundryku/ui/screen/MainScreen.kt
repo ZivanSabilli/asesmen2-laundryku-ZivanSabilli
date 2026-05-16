@@ -30,6 +30,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -44,7 +46,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.zivansabilli3153.laundryku.R
 import com.zivansabilli3153.laundryku.model.Pesanan
+import com.zivansabilli3153.laundryku.util.SettingsDataStore
 import com.zivansabilli3153.laundryku.util.ViewModelFactory
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,10 +61,13 @@ fun MainScreen(
     val factory = ViewModelFactory(context)
     val viewModel: MainViewModel = viewModel(factory = factory)
 
+    val settingsDataStore = remember { SettingsDataStore(context) }
+    val scope = rememberCoroutineScope()
+
     val dataPesanan by viewModel.dataPesanan.collectAsState()
+    val showList by settingsDataStore.layoutFlow.collectAsState(initial = true)
 
     var expandedMenu by rememberSaveable { mutableStateOf(false) }
-    var showList by rememberSaveable { mutableStateOf(true) }
 
     Scaffold(
         topBar = {
@@ -71,7 +78,9 @@ fun MainScreen(
                 actions = {
                     TextButton(
                         onClick = {
-                            showList = !showList
+                            scope.launch {
+                                settingsDataStore.saveLayout(!showList)
+                            }
                         }
                     ) {
                         Text(
