@@ -40,4 +40,9 @@
     <string name="order_total_price">Total: Rp %1$d</string>
     <string name="order_estimate">Estimate: %1$d day(s)</string>
     <string name="order_date">Date: %1$s</string>
+
+    <string name="add_order_title">Add Laundry Order</string>
+    <string name="save_order">Save</string>
+    <string name="order_form_note">Order note</string>
+    <string name="order_form_note_hint">Example: separate white clothes</string>
 </resources>

@@ -40,4 +40,9 @@
     <string name="order_total_price">Total: Rp %1$d</string>
     <string name="order_estimate">Estimasi: %1$d hari</string>
     <string name="order_date">Tanggal: %1$s</string>
+
+    <string name="add_order_title">Tambah Pesanan Laundry</string>
+    <string name="save_order">Simpan</string>
+    <string name="order_form_note">Catatan pesanan</string>
+    <string name="order_form_note_hint">Contoh: pisahkan baju putih</string>
 </resources>

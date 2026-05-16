@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.zivansabilli3153.laundryku.ui.screen.AboutScreen
+import com.zivansabilli3153.laundryku.ui.screen.DetailScreen
 import com.zivansabilli3153.laundryku.ui.screen.MainScreen
 
 @Composable
@@ -19,6 +20,9 @@ fun NavGraph() {
             MainScreen(
                 onAboutClick = {
                     navController.navigate(Screen.About.route)
+                },
+                onAddClick = {
+                    navController.navigate(Screen.FormTambah.route)
                 }
             )
         }
@@ -26,6 +30,17 @@ fun NavGraph() {
         composable(Screen.About.route) {
             AboutScreen(
                 onBackClick = {
+                    navController.navigateUp()
+                }
+            )
+        }
+
+        composable(Screen.FormTambah.route) {
+            DetailScreen(
+                onBackClick = {
+                    navController.navigateUp()
+                },
+                onSaveClick = {
                     navController.navigateUp()
                 }
             )
